@@ -2,11 +2,6 @@ from datetime import datetime
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 
-#Женщины: 44.0-80.0 мкмоль/л;
-#Мужчины: 74,0—110,0 мкмоль/л;
-#Дети до 1 года: 18-35 мкмоль/л;
-#Дети от 1 до 14 лет: 27-62 мкмоль/л.
-
 class Scenario(object):
     def __init__( self ) :
         self.BOT = 'bot'
@@ -18,6 +13,30 @@ class Scenario(object):
             'template'  : 'app/baseMessage.html',
             'data'      : 'Здравствуйте <b>Александр Владимирович</b>'
                 '<p>[Авиценнов Александр Владимирович. Врач-терапевт. п.н. 0184]</p>'
+        } )
+        self.data.append( {
+            'type'      : self.HUMAN,
+            'template'  : 'app/baseMessage.html',
+            'data'      : 'рассчитай <b>риск ишемического инсульта</b> для <b>петрова николая владимировича восемьдесят девятого года</b> рождения'
+        } )
+        self.data.append( {
+            'type'      : self.BOT,
+            'template'  : 'app/baseMessage.html',
+            'data'      : 'CHA<font size="2">2</font>DS<font size="2">2</font>-VASc <b>Петров Н.В. 10.02.1989</b>'
+                '<p>Набрано: <b>6</b> баллов. Ожидаемая частота инсультов за год - <b>9.8%</b>.</p>'
+                '<p><u>Рекомендуется прием витамина К (варфарин) с целевым МНО 2.5 (2.0-3.0)</u></p>'
+        } )
+        self.data.append( {
+            'type'      : self.HUMAN,
+            'template'  : 'app/baseMessage.html',
+            'data'      : 'дай оценку <b>риска кровотечения</b>'
+        } )
+        self.data.append( {
+            'type'      : self.BOT,
+            'template'  : 'app/baseMessage.html',
+            'data'      : 'Шкала HAS-BLED <b>Петров Н.В. 10.02.1989</b>'
+                '<p>Набрано: <b>3</b> балла. Риск: <b>5.8%</b></p>'
+                '<p><u>Следует рассмотреть альтернативы антикоагулянтной терапии. Пациент имеет высокий риск кровотечения</u></p>'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
@@ -35,8 +54,7 @@ class Scenario(object):
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'рассчитай <font color="black"><b>скорость клубочковой фильтрации</b></font> '
-                'с соответствием <font color="black"><b>идмс</b></font> '
+            'data'      : 'рассчитай <font color="black"><b>скф</b></font> '
                 'для <font color="black"><b>мужчины тридцати двух лет</b></font> '
                 'с уровнем креатинина сыворотки <font color="black"><b>восемьдесят два микромоль на литр</b></font>'
         } )
