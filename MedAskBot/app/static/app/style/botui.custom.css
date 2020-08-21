@@ -1,0 +1,41 @@
+.botui-app-container {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.botui-container {
+    border: 1px solid black;
+}
+
+.botui-messages-container {
+}
+
+.botui-actions-container {
+}
+
+.botui-message {
+}
+
+.botui-message-content {
+}
+
+.botui-message-content.embed {
+
+}
+
+.botui-message-content.embed > iframe {
+
+}
+
+.botui-message-content-link {
+}
+
+.botui-actions-text-input {
+}
+
+.botui-actions-text-submit {
+}
+
+.botui-actions-buttons-button {
+}

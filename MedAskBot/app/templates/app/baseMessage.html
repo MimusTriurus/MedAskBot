@@ -1,0 +1,17 @@
+﻿{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'app/style/baseMessage.css' %}"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {% autoescape off %}
+                <p>{{data}}</p>
+            {% endautoescape %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+﻿{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'app/style/recipe.css' %}"/>
+
+<div id="openModal" class="modalDialog">
+    <div>
+        <a href="#close" title="Закрыть" class="close">X</a>
+        <h2>Модальное окно</h2>
+        <p>Пример простого модального окна, которое может быть создано с использованием CSS3.</p>
+        <p>Его можно использовать в широком диапазоне, начиная от вывода сообщений и заканчивая формой регистрации.</p>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p><b>Дата         :</b> {{date}}    </p>
+            <p><b>Пациент      :</b> {{patient}} </p>
+            <p><b>Возраст      :</b> {{yearsOld}}</p>
+            <p><b>Rp.</b> {{recipe}}             </p>
+            <p><b>S.</b>  {{signa}}              </p>
+            <p><b>Действителен :</b> {{validity}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="#openModal">
+                <img id="messageBtn" src="{% static 'app/icons/find_24dp.png' %}"/>
+            </a>
+        </div>
+        <div class="col">
+            <button id="messageBtn">
+                <img src="{% static 'app/icons/print_24dp.png' %}"/>
+            </button>
+        </div>
+        <div class="col">
+            <button id="messageBtn">
+                <img src="{% static 'app/icons/download_24dp.png' %}"/>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
