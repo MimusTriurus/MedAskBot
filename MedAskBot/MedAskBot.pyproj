@@ -79,11 +79,13 @@
     <Content Include="app\static\app\icons\print_48dp.png" />
     <Content Include="app\static\app\scripts\bot\bot.js" />
     <Content Include="app\static\app\scripts\bot\botui.js" />
+    <Content Include="app\static\app\scripts\SpeechKITT.js" />
     <Content Include="app\static\app\style\baseMessage.css" />
     <Content Include="app\static\app\style\botui-theme-default.css" />
     <Content Include="app\static\app\style\botui.custom.css" />
     <Content Include="app\static\app\style\botui.min.css" />
     <Content Include="app\static\app\style\recipe.css" />
+    <Content Include="app\static\app\style\SpeechKITT.css" />
     <Content Include="app\templates\app\baseMessage.html" />
     <Content Include="app\templates\app\constantsMessages\recipeRequest.html" />
     <Content Include="app\templates\app\recipe.html" />

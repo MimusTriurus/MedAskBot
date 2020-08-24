@@ -1,57 +1,83 @@
-var botui = new BotUI( 'botContainer' );
+var botui = new BotUI('botContainer');
 
-var step = 0;
+var step = -1;
+var BOT_AREA_ID = 'botArea';
 
-function addBotHtmlMessageBox( htmlData ) {
-    botui.message.bot( {
-        delay: 500,
-        type: 'html',
-        content: htmlData
-    } );
+function initSpeechKITT( styleFPath ) {
+    SpeechKITT.setStartCommand(function () { recognition.start() });
+    SpeechKITT.setAbortCommand(function () { recognition.abort() });
+    //recognition.addEventListener('start', SpeechKITT.onStart);
+    //recognition.addEventListener('end', SpeechKITT.onEnd);
+    SpeechKITT.setStylesheet(styleFPath);
+    SpeechKITT.vroom();
 }
 
-function addHumanHtmlMessageBox( htmlData ) {
-    botui.message.human( {
-        delay: 500,
-        type: 'html',
-        content: htmlData
-    } );
+function addBotHtmlMessageBox( htmlData, d ) {  
+    botui.message
+        .bot({
+            delay: d,
+            type: 'html',
+            content: htmlData
+        })
+        .then(function (index) {
+            SpeechKITT.onEnd();
+            var elem = document.getElementById(BOT_AREA_ID);
+            elem.scrollTop = elem.scrollHeight;
+        });
 }
 
-function sendRequest( ) {
+function addHumanHtmlMessageBox( htmlData, d ) {
+    botui.message.human({
+        delay: d,
+        type: 'html',
+        content: htmlData
+    }).then(function () {
+        SpeechKITT.onEnd();
+        var elem = document.getElementById(BOT_AREA_ID);
+        elem.scrollTop = elem.scrollHeight;
+    });
+}
+
+function makeStepByKeyCode(keycode) {
+    switch (keycode) {
+        case 37:
+            if (step > 0)
+                return step--;
+            break;
+        case 39:
+                return step++;
+            break;
+        default:
+            return step++;
+    }
+}
+
+function sendRequest(keycode) {
     var http = new XMLHttpRequest( );
     var url = '/receive';
-    var params = 'step=' + step++;
+    makeStepByKeyCode(keycode);
+    var params = 'step=' + step;
     http.open( 'POST', url, true );
     http.setRequestHeader( 'Content-type', 'application/x-www-form-urlencoded' );
     http.onreadystatechange = function ( ) {
-        if ( http.readyState == 4 && http.status == 200 ) {
+        if (http.readyState == 4 && http.status == 200) {
             var result = JSON.parse(http.responseText);
-            if ( result[ 'type' ] == 'bot' )
-                addBotHtmlMessageBox(result['htmlData']);
-            else
-                addHumanHtmlMessageBox(result['htmlData']);
+            var delay = Number(result['delay']);
+            var htmlData = result['htmlData'];
+            console.log(delay);
+            if (result['type'] == 'bot') {
+                addBotHtmlMessageBox(htmlData, delay);
+            }
+            else {
+                addHumanHtmlMessageBox(htmlData, delay);
+                sendRequest(39);
+            }
+            var txt = result['txt'];
+            if (txt != '') {
+                SpeechKITT.setInstructionsText(txt);
+                SpeechKITT.onStart();
+            }
         }
     }
     http.send( params );
 }
-
-function init( ) {
-    botui.message.bot( {
-        delay: 500,
-        type: 'html',
-        content: mess1( ),
-    } ).then((index) => {
-        botui.message.bot( {
-            delay: 1500,
-            content: 'Here is the location..'
-        } );
-    } ).then( ( index ) => {
-        botui.message.update( 0, {
-            delay: 1500,
-            content: 'Here is the location..'
-        } );
-    } )
-}
-
-//init( );

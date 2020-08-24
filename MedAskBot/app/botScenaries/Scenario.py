@@ -1,8 +1,9 @@
 from datetime import datetime
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
+from time import gmtime, strftime
 
-class Scenario(object):
+class Scenario( object ) :
     def __init__( self ) :
         self.BOT = 'bot'
         self.HUMAN = 'human'
@@ -12,70 +13,98 @@ class Scenario(object):
             'type'      : self.BOT,
             'template'  : 'app/baseMessage.html',
             'data'      : 'Здравствуйте <b>Александр Владимирович</b>'
-                '<p>[Авиценнов Александр Владимирович. Врач-терапевт. п.н. 0184]</p>'
+                '<p>[Авиценнов Александр Владимирович. Врач-терапевт. п.н. 0184]</p>',
+            'txt' : 'вита',
+            'delay' : '1500'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'рассчитай <b>риск ишемического инсульта</b> для <b>петрова николая владимировича восемьдесят девятого года</b> рождения'
+            'data'      : 'рассчитай <b><span class="ner">риск ишемического инсульта</span></b> '
+                'для <b><span class="ner">Петрова Николая Владимировича 1989 года</span></b> рождения',
+            'txt'       : 'рассчитай риск ишемического инсульта '
+                'для петрова николая владимировича восемьдесят девятого года рождения',
+            'delay' : '2000'
         } )
         self.data.append( {
             'type'      : self.BOT,
             'template'  : 'app/baseMessage.html',
             'data'      : 'CHA<font size="2">2</font>DS<font size="2">2</font>-VASc <b>Петров Н.В. 10.02.1989</b>'
                 '<p>Набрано: <b>6</b> баллов. Ожидаемая частота инсультов за год - <b>9.8%</b>.</p>'
-                '<p><u>Рекомендуется прием витамина К (варфарин) с целевым МНО 2.5 (2.0-3.0)</u></p>'
+                '<p><u>Рекомендуется прием витамина К (варфарин) с целевым МНО 2.5 (2.0-3.0)</u></p>',
+            'txt' : '',
+            'delay' : '3000'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'дай оценку <b>риска кровотечения</b>'
+            'data'      : 'дай оценку <b><span class="ner">риска кровотечения</span></b>',
+            'txt'       : 'дай оценку риска кровотечения',
+            'delay' : '1000'
         } )
         self.data.append( {
             'type'      : self.BOT,
             'template'  : 'app/baseMessage.html',
             'data'      : 'Шкала HAS-BLED <b>Петров Н.В. 10.02.1989</b>'
                 '<p>Набрано: <b>3</b> балла. Риск: <b>5.8%</b></p>'
-                '<p><u>Следует рассмотреть альтернативы антикоагулянтной терапии. Пациент имеет высокий риск кровотечения</u></p>'
+                '<p><u>Следует рассмотреть альтернативы антикоагулянтной терапии. Пациент имеет высокий риск кровотечения</u></p>',
+            'txt' : '',
+            'delay' : '2000'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'рассчитай <font color="black"><b>скорость инфузии</b></font> '
-               'для <font color="black"><b>100 миллилитров</b></font> раствора '
-               'время введения <font color="black"><b>пять часов</b></font>'
+            'data'      : 'рассчитай <span class="ner"><b>скорость инфузии</b></span> '
+               'для <span class="ner"><b>100 миллилитров</b></span> раствора '
+               'время введения <span class="ner"><b>5 часов</b></span>',
+            'txt'       : 'рассчитай скорость инфузии '
+               'для ста миллилитров раствора '
+               'время введения пять часов',
+            'delay' : '2000'
         } )
         self.data.append( {
             'type'      : self.BOT,
             'template'  : 'app/baseMessage.html',
-            'data'      : '<p><font color="black"><b>16.7</b></font> капель в минуту</p>'
-                '<p><font color="black"><b>0.28</b></font> капель в секунду</p>'
+            'data'      : '<span class="resVal"><b>16.7</b></span> капель в минуту'
+                '<p><span class="resVal"><b>0.28</b></span> капель в секунду</p>',
+            'txt' : '',
+            'delay' : '2500'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'рассчитай <font color="black"><b>скф</b></font> '
-                'для <font color="black"><b>мужчины тридцати двух лет</b></font> '
-                'с уровнем креатинина сыворотки <font color="black"><b>восемьдесят два микромоль на литр</b></font>'
+            'data'      : 'рассчитай <span class="ner"><b>СКФ</b></span> '
+                'для <span class="ner"><b>мужчины 32 лет</b></span> '
+                'с уровнем креатинина сыворотки <span class="ner"><b>82 мкмоль/л</b></span>',
+            'txt'       : 'рассчитай скф '
+                'для мужчины тридцати двух лет '
+                'с уровнем креатинина сыворотки восемьдесят два микромоль на литр',
+            'delay' : '2000'
         } )
         self.data.append( {
             'type'      : self.BOT,
             'template'  : 'app/baseMessage.html',
-            'data'      : '<p><b>СКФ</b> = <font color=blue>94 мл/мин/1.73 м2</font></p>'
-                '<p><b>Стадия ХБП:</b> <font color="black"><b>I</b></font></p>'
-                '<p><u>при наличии факторов риска или повреждение почек с нормальной почечной функцией</u></p>'
+            'data'      : '<b>СКФ</b> = <span class="resVal">94 мл/мин/1.73 м2</span>'
+                '<p><b>Стадия ХБП:</b> <span class="resVal"><b>I</b></span></p>'
+                '<p><u>при наличии факторов риска или повреждение почек с нормальной почечной функцией</u></p>',
+            'txt' : '',
+            'delay' : '3000'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'Какие <font color="black"><b>противопоказания</b></font> '
-                'и <font color="black"><b>особые указания</b></font> у'
-                ' <font color="black"><b>изопринозина</b></font>?'
+            'data'      : 'какие <span class="ner"><b>противопоказания</b></span> '
+                'и <span class="ner"><b>особые указания</b></span> у'
+                ' <span class="ner"><b>Изопринозина</b></span>',
+            'txt' : 'какие противопоказания '
+                'и особые указания у'
+                ' изопринозина',
+            'delay' : '2000'
         } )
         self.data.append( {
             'type'      : self.BOT,
             'template'  : 'app/baseMessage.html',
-            'data'      : '<p><b>Противопоказания:</b></p>'
+            'data'      : '<b>Противопоказания:</b>'
                 '<ul>'
                     '<li>мочекаменная болезнь;</li>'
                     '<li>подагра;</li>'
@@ -85,16 +114,26 @@ class Scenario(object):
                 '<p><b>Особые указания:</b></p>'
                 '<ul>'
                     '<li>влияние на способность к вождению автотранспорта и управлению механизмами</li>'
-                '</ul>'
+                '</ul>',
+            'txt' : '',
+            'delay' : '3000'
         } )
         self.data.append( {
             'type'      : self.HUMAN,
             'template'  : 'app/baseMessage.html',
-            'data'      : 'подготовь рецепт для <font color="black"><b>петрова николая владимировича</b></font> '
-                '<font color="black"><b>восемьдесят девятого</b></font> года рождения '
-                'назначь <font color="black"><b>тридцать таблеток изопринозина</b></font> по <font color="black"><b>пятьсот миллиграмм</u></font> '
-                'принимать <font color="black"><b>внутрь по одной таблетке утром</b></font> '
-                'рецепт действителен <font color="black"><b>1 месяц</b></font>'
+            'data'      : 'подготовь рецепт для <span class="ner"><b>Петрова Николая Владимировича</b></span> '
+                '<span class="ner"><b>1989</b></span> года рождения '
+                'назначь <span class="ner"><b>30 таблеток Изопринозина</b></span> '
+                'по <span class="ner"><b>500 мг.</b></span> '
+                'принимать <span class="ner"><b>внутрь по одной таблетке утром</b></span> '
+                'рецепт действителен <span class="ner"><b>1 месяц</b></span>',
+            'txt' : 'подготовь рецепт для петрова николая владимировича '
+                'восемьдесят девятого года рождения '
+                'назначь тридцать таблеток изопринозина '
+                'по пятьсот миллиграмм '
+                'принимать внутрь по одной таблетке утром '
+                'рецепт действителен один месяц',
+            'delay' : '3000'
         } )
         self.data.append( {
             'type'      : self.BOT,
@@ -105,6 +144,8 @@ class Scenario(object):
             'recipe'    : 'Isoprinosini 0,5 D.t.d. N 30 in tab.',
             'signa'     : 'Внутрь по 1 таблетке утром',
             'validity'  : '1 месяц',
+            'txt'       : '',
+            'delay'     : '4000'
         } )
         return
 
@@ -113,9 +154,13 @@ class Scenario(object):
         if i >= len( self.data ) :
             return {}
         params = self.data[ i ]
+        params[ 'date' ] = datetime.today().strftime("%H:%M %d.%m.%y")
         htmlData = {}
         htmlData[ 'type' ] = params.get( 'type', self.BOT )
         htmlData[ 'htmlData' ] = render_to_string( params.get( 'template', self.DEF_TEMPLATE ), params )
+        htmlData[ 'txt' ] = params.get( 'txt', '' )
+        htmlData[ 'delay' ] = params.get( 'delay', '2000' )
+
         return htmlData
 
 
