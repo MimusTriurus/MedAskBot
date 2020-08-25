@@ -1,0 +1,25 @@
+.botui-container {
+    background: #f0f3f5;
+}
+
+.botui-message-content {
+    background: #c7e6ff;
+    color: black;
+}
+
+.botui-message-content.human {
+    background: #ffffff;
+    color: black;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

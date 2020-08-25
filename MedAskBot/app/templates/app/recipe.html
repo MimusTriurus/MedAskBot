@@ -17,14 +17,19 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <p><b>Дата         :</b> {{date}}    </p>
-            <p><b>Пациент      :</b> {{patient}} </p>
-            <p><b>Возраст      :</b> {{yearsOld}}</p>
-            <p><b>Rp.</b> {{recipe}}             </p>
-            <p><b>S.</b>  {{signa}}              </p>
-            <p><b>Действителен :</b> {{validity}}</p>
+            <!--<p><b>Дата                      :</b> {{date}}</p>-->
+            <p><b>Ф.И.О. пациента           :</b> {{patient}} </p>
+            <p><b>Дата рождения             :</b> {{birthdate}}</p>
+            <!--<p><b>СНИЛС                     :</b> {{snils}}</p>-->
+            <!--<p><b>Ф.И.О. врача              :</b> {{doctor}}</p>-->
+            <p><b>Код нозологической формы  :</b> {{diagnosis}}</p>
+            <p><b>Rp                        :</b> {{rp}}             </p>
+            <p><b>D.t.d.                    :</b> {{dtd}}</p>
+            <p><b>Дозировка                 :</b> {{dosen}}             </p>
+            <p><b>Signa                     :</b> {{signa}}</p>
         </div>
     </div>
+
     <div class="row">
         <div class="col-4">
             <a href="#openModal">
@@ -42,6 +47,7 @@
             </button>
         </div>
     </div>
+
 </div>
 
 {% endblock %}

@@ -1,34 +1,52 @@
 var botui = new BotUI('botContainer');
 
-var step = -1;
+var step = 10;
 var BOT_AREA_ID = 'botArea';
 
 function initSpeechKITT( styleFPath ) {
-    SpeechKITT.setStartCommand(function () { recognition.start() });
-    SpeechKITT.setAbortCommand(function () { recognition.abort() });
+    SpeechKITT.setStartCommand( function ( ) { recognition.start( ) } );
+    SpeechKITT.setAbortCommand( function ( ) { recognition.abort( ) } );
     //recognition.addEventListener('start', SpeechKITT.onStart);
     //recognition.addEventListener('end', SpeechKITT.onEnd);
-    SpeechKITT.setStylesheet(styleFPath);
-    SpeechKITT.vroom();
+    SpeechKITT.setStylesheet( styleFPath );
+    SpeechKITT.vroom( );
 }
 
 function addBotHtmlMessageBox( htmlData, d ) {  
     botui.message
-        .bot({
+        .bot( {
             delay: d,
+            loading: false,
             type: 'html',
             content: htmlData
-        })
-        .then(function (index) {
+        } )
+        .then( function (index) {
             SpeechKITT.onEnd();
             var elem = document.getElementById(BOT_AREA_ID);
             elem.scrollTop = elem.scrollHeight;
-        });
+        } );
+}
+
+function addBotButtonsControls() {
+    botui.action.button( {
+        delay: 100,
+        action: [
+            {
+                text: 'Подтвердить',
+                value: 'yes'
+            },
+            {
+                text: 'Отклонить',
+                value: 'no'
+            }
+        ]
+    } );
 }
 
 function addHumanHtmlMessageBox( htmlData, d ) {
     botui.message.human({
         delay: d,
+        loading: true,
         type: 'html',
         content: htmlData
     }).then(function () {
@@ -48,14 +66,16 @@ function makeStepByKeyCode(keycode) {
                 return step++;
             break;
         default:
-            return step++;
+            return -1;
     }
 }
 
 function sendRequest(keycode) {
+    var s = makeStepByKeyCode(keycode);
+    if (s==-1)
+        return;
     var http = new XMLHttpRequest( );
     var url = '/receive';
-    makeStepByKeyCode(keycode);
     var params = 'step=' + step;
     http.open( 'POST', url, true );
     http.setRequestHeader( 'Content-type', 'application/x-www-form-urlencoded' );
@@ -64,13 +84,21 @@ function sendRequest(keycode) {
             var result = JSON.parse(http.responseText);
             var delay = Number(result['delay']);
             var htmlData = result['htmlData'];
-            console.log(delay);
-            if (result['type'] == 'bot') {
-                addBotHtmlMessageBox(htmlData, delay);
-            }
-            else {
-                addHumanHtmlMessageBox(htmlData, delay);
-                sendRequest(39);
+            
+            switch (result['type']) {
+                case 'bot':
+                    addBotHtmlMessageBox(htmlData, delay);
+                    break;
+                case 'human':
+                    addHumanHtmlMessageBox(htmlData, delay);
+                    sendRequest(39);
+                    break;
+                case 'controls':
+                    addBotButtonsControls();
+                    break;
+                case 'inputTxt':
+                    addBotInputTxt();
+                    break;
             }
             var txt = result['txt'];
             if (txt != '') {
