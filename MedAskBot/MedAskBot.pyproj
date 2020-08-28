@@ -56,6 +56,7 @@
     <Folder Include="app\static\app\fonts\" />
     <Folder Include="app\static\app\icons\" />
     <Folder Include="app\static\app\images\" />
+    <Folder Include="app\static\app\audio\" />
     <Folder Include="app\static\app\resources\" />
     <Folder Include="app\static\app\scripts\bot\" />
     <Folder Include="app\static\app\scripts\bootstrap\" />
@@ -66,6 +67,14 @@
     <Folder Include="MedAskBot\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\app\audio\вита.ogg" />
+    <Content Include="app\static\app\audio\выпиши рецепт....ogg" />
+    <Content Include="app\static\app\audio\дай оценку риска кровотечения.ogg" />
+    <Content Include="app\static\app\audio\какие противопоказания у пронорана.ogg" />
+    <Content Include="app\static\app\audio\подтверждаю.ogg" />
+    <Content Include="app\static\app\audio\проверь наличие препарата в ближайших аптеках.ogg" />
+    <Content Include="app\static\app\audio\рассчитай СКФ.ogg" />
+    <Content Include="app\static\app\audio\расчитай риск инсульта.ogg" />
     <Content Include="app\static\app\icons\download_18dp.png" />
     <Content Include="app\static\app\icons\download_24dp.png" />
     <Content Include="app\static\app\icons\download_36dp.png" />

@@ -12,7 +12,7 @@ function initSpeechKITT( styleFPath ) {
     SpeechKITT.vroom( );
 }
 
-function addBotHtmlMessageBox( htmlData, d ) {  
+function addBotHtmlMessageBox( htmlData, d, audioFile ) {  
     botui.message
         .bot( {
             delay: d,
@@ -24,6 +24,14 @@ function addBotHtmlMessageBox( htmlData, d ) {
             SpeechKITT.onEnd();
             var elem = document.getElementById(BOT_AREA_ID);
             elem.scrollTop = elem.scrollHeight;
+
+            if (audioFile != '') {
+                var player = document.getElementById("player");
+                player.src = audioFile;
+                player.load( );
+                player.play( );
+            }
+            //player.onended = function () { console.log('!!!') };
         } );
 }
 
@@ -84,20 +92,14 @@ function sendRequest(keycode) {
             var result = JSON.parse(http.responseText);
             var delay = Number(result['delay']);
             var htmlData = result['htmlData'];
-            
+            var audioFile = result[ 'audioFile' ];
             switch (result['type']) {
                 case 'bot':
-                    addBotHtmlMessageBox(htmlData, delay);
+                    addBotHtmlMessageBox(htmlData, delay, audioFile);
                     break;
                 case 'human':
                     addHumanHtmlMessageBox(htmlData, delay);
                     sendRequest(39);
-                    break;
-                case 'controls':
-                    addBotButtonsControls();
-                    break;
-                case 'inputTxt':
-                    addBotInputTxt();
                     break;
             }
             var txt = result['txt'];
@@ -108,4 +110,8 @@ function sendRequest(keycode) {
         }
     }
     http.send( params );
+}
+
+function onPlayerEnd() {
+    console.log('play end');
 }
